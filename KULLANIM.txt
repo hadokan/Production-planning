@@ -1,0 +1,79 @@
+URETIM PLANLAMA - EXCEL ONLY KULLANIM
+=====================================
+
+AKIS
+----
+1) Girdi: Tek bir Excel dosyasi
+2) Program: production_planner_excel_only.py
+3) Cikti: Tek bir Excel dosyasi
+
+JSON, baslangic plan dosyasi veya ek konfigurasyon dosyasi kullanilmaz.
+Planlama ile ilgili tum parametreler giris Excel'indeki sayfalardan okunur.
+
+CALISTIRMA
+----------
+Ayni klasorde terminal acin ve su komutu calistirin:
+
+python production_planner_excel_only.py production_planning_input_v6_excel_only.xlsx
+
+Program otomatik olarak su dosyayi olusturur:
+
+production_planning_input_v6_excel_only_output.xlsx
+
+GIRIS EXCEL'INDEKI ANA AYARLAR
+------------------------------
+settings sayfasinda:
+- HeuristicTrials        : Constructive heuristic deneme sayisi
+- MILPPolishTimeSec      : Toplam MILP sure butcesi (saniye)
+- RandomSeed             : Heuristic rastgelelik tohumu
+- UnmetTolerance_t       : Referans plana gore toplam ek unmet toleransi
+
+objectives sayfasinda optimizasyon oncelikleri bulunur:
+1. MIN_UNMET
+2. MIN_PRODUCT_MACHINE_SPLITS
+3. MIN_CHANGEOVERS
+4. MIN_FAMILY_MACHINE_SPLITS
+5. MIN_PRODUCTS_PER_MACHINE
+6. MIN_SURPLUS
+7. MIN_MACHINE_PRIORITY_COST
+
+DIGER GIRISLER
+--------------
+- products               : urun/family/tuz durumu/sira
+- machines               : makineler
+- machine_product        : uygunluk, kapasite, min run, max daily ton, preparation
+- targets                : hedef tonajlar
+- calendar               : gun/vardiya kullanilabilirligi
+- sequence_rules         : ayni makinede sira kurallari
+- changeover_rules       : vardiya ve gunluk changeover limitleri
+- allocation_rules       : tek makine/family tercihleri
+- initial_state          : plan baslangic makine durumu
+
+CIKIS EXCEL'I
+-------------
+Program cikis Excel'ini kendisi olusturur. Ana gorunumler:
+- dashboard
+- results-plan
+- product-summary
+- machine-summary
+- Detaylar
+
+DOGRULAMA
+---------
+Program sonucu yazmadan once su kurallari tekrar kontrol eder:
+- makine-urun uygunlugu
+- vardiya suresi ve preparation
+- MaxDaily_t
+- vardiya basina tek urun
+- gunluk max changeover (gunler arasi gecis dahil)
+- sequence kurallari
+- A-B-A urun donusu yasagi
+- minimum run / final-run istisnasi
+- HARD hedefler
+- surplus yasagi
+- toplam unmet toleransi
+
+NOT
+---
+Cikti dosyasi zaten varsa program ayni isimle yeniden olusturur.
+Planlama parametrelerini komut satirindan degistirmek yerine Excel'i degistirin.
